@@ -18,4 +18,9 @@ namespace WebApplication1.Models
         public string Mensaje { get; set; }
 
     }
+    public class ContactViewModel
+    {
+        public ContactMessage NuevoMensaje { get; set; }
+        public List<ContactMessage> Mensajes { get; set; } = new List<ContactMessage>();
+    }
 }

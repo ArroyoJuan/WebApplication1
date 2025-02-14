@@ -1,8 +1,61 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model WebApplication1.Models.ContactViewModel
+
+@{
+    ViewData["Title"] = "Formulatio de Contacto";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Formulario de Contacto</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<form asp-action="Submit" method="post">
+    <div>
+        <label>Nombre:</label>
+        <input asp-for="NuevoMensaje.Nombre" class="form-control" />
+        <span asp-validation-for="NuevoMensaje.Nombre" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label>Correo Electrónico:</label>
+        <input asp-for="NuevoMensaje.Correo" class="form-control" />
+        <span asp-validation-for="NuevoMensaje.Correo" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label>Mensaje:</label>
+        <textarea asp-for="NuevoMensaje.Mensaje" class="form-control"></textarea>
+        <span asp-validation-for="NuevoMensaje.Mensaje" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+
+<h3>Mensajes Recibidos</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Mensaje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var mensaje in Model.Mensajes)
+        {
+            <tr>
+                <td>@mensaje.Nombre</td>
+                <td>@mensaje.Correo</td>
+                <td>@mensaje.Mensaje</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
