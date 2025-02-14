@@ -1,60 +1,83 @@
 ﻿@model WebApplication1.Models.ContactViewModel
 
 @{
-    ViewData["Title"] = "Formulatio de Contacto";
+    ViewData["Title"] = "Formulario de Contacto";
 }
 
-<h2>Formulario de Contacto</h2>
+<style>
+    body {
+        background-color: #FAEBD7;
+    }
+    .titulo {
+        color: #5D4037;
+        font-weight: bold;
+        border-bottom: 3px solid #8D6E63;
+        padding-bottom: 5px;
+    }
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
+    table{
+        background-color: white;
+    }
+</style>
+
+<div class="container mt-4">
+    <h2 class="text-center titulo">Formulario de Contacto</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success text-center fw-bold">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <div class="card p-4 shadow-lg card-custom">
+        <form asp-action="Submit" method="post">
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Nombre:</label>
+                <input asp-for="NuevoMensaje.Nombre" class="form-control border-secondary" />
+                <span asp-validation-for="NuevoMensaje.Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Correo Electrónico:</label>
+                <input asp-for="NuevoMensaje.Correo" class="form-control border-secondary" />
+                <span asp-validation-for="NuevoMensaje.Correo" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Mensaje:</label>
+                <textarea asp-for="NuevoMensaje.Mensaje" class="form-control border-secondary" rows="4"></textarea>
+                <span asp-validation-for="NuevoMensaje.Mensaje" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-cafe w-100 py-2">
+                ✉️ Enviar Mensaje
+            </button>
+        </form>
     </div>
-}
 
-<form asp-action="Submit" method="post">
-    <div>
-        <label>Nombre:</label>
-        <input asp-for="NuevoMensaje.Nombre" class="form-control" />
-        <span asp-validation-for="NuevoMensaje.Nombre" class="text-danger"></span>
-    </div>
+    <h3 class="mt-5 text-center titulo">Mensajes Recibidos</h3>
 
-    <div>
-        <label>Correo Electrónico:</label>
-        <input asp-for="NuevoMensaje.Correo" class="form-control" />
-        <span asp-validation-for="NuevoMensaje.Correo" class="text-danger"></span>
-    </div>
-
-    <div>
-        <label>Mensaje:</label>
-        <textarea asp-for="NuevoMensaje.Mensaje" class="form-control"></textarea>
-        <span asp-validation-for="NuevoMensaje.Mensaje" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Enviar</button>
-</form>
-
-<h3>Mensajes Recibidos</h3>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Mensaje</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var mensaje in Model.Mensajes)
-        {
+    <table class="table table-hover table-striped mt-3 shadow-sm">
+        <thead class="table-header">
             <tr>
-                <td>@mensaje.Nombre</td>
-                <td>@mensaje.Correo</td>
-                <td>@mensaje.Mensaje</td>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Mensaje</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var mensaje in Model.Mensajes)
+            {
+                <tr>
+                    <td>@mensaje.Nombre</td>
+                    <td>@mensaje.Correo</td>
+                    <td>@mensaje.Mensaje</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
